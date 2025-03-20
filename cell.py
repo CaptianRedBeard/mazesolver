@@ -16,7 +16,11 @@ class Cell:
         self.has_top_wall = True
         self.has_bottom_wall = True
 
+        self.visited = False
+
     def draw(self, x1, y1, x2, y2, fill_color = 'black'):
+        solid = fill_color
+        missing = 'white'
 
         self._x1 = x1
         self._y1 = y1
@@ -24,18 +28,32 @@ class Cell:
         self._x2 = x2
         self._y2 = y2
 
-        if self.has_left_wall:
-            line = Line(Point(x1, y1), Point(x1, y2))
-            self._win.draw_line(line, fill_color)
-        if self.has_right_wall:
-            line = Line(Point(x2, y1), Point(x2, y2))
-            self._win.draw_line(line, fill_color)
-        if self.has_top_wall:
-            line = Line(Point(x1, y1), Point(x2, y1))
-            self._win.draw_line(line, fill_color)
-        if self.has_bottom_wall:
-            line = Line(Point(x1, y2), Point(x2, y2))
-            self._win.draw_line(line, fill_color)
+        if not self.has_left_wall:
+            fill_color = missing
+        
+        line = Line(Point(x1, y1), Point(x1, y2))
+        self._win.draw_line(line, fill_color)
+
+        fill_color = solid
+        if not self.has_right_wall:
+            fill_color = missing
+        
+        line = Line(Point(x2, y1), Point(x2, y2))
+        self._win.draw_line(line, fill_color)
+
+        fill_color = solid
+        if not self.has_top_wall:
+            fill_color = missing
+
+        line = Line(Point(x1, y1), Point(x2, y1))
+        self._win.draw_line(line, fill_color)
+
+        fill_color = solid
+        if not self.has_bottom_wall:
+            fill_color = missing
+        
+        line = Line(Point(x1, y2), Point(x2, y2))
+        self._win.draw_line(line, fill_color)
             
     def center(self):
         centerx = (self._x1 + self._x2) / 2
